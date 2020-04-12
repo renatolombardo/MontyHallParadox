@@ -6,10 +6,10 @@ namespace Sorteio
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Quantidade de sorteios: ");
-            var quantidade = Convert.ToUInt64(Console.ReadLine());
+            Console.WriteLine("Number of tries: ");
+            var tries = Convert.ToUInt64(Console.ReadLine());
 
-            Shuffle(quantidade);
+            Shuffle(tries);
         }
 
         private static void Shuffle(ulong numberOfTries)
@@ -34,7 +34,7 @@ namespace Sorteio
                     discardedDoor = doors[prizeIndex.Next(0, doors.Length)];
                 }
 
-                var correctGuess = selectedDoor == prizeDoor;
+                bool correctGuess = selectedDoor == prizeDoor;
 
                 if (correctGuess) correctHits++;
                 else wrongHits++;
