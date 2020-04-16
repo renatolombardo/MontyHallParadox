@@ -4,6 +4,9 @@ namespace Sorteio
 {
     class Program
     {
+        private static Random _prizeIndex = new Random();
+        private static int[] _doors = { 1, 2, 3 };
+
         static void Main(string[] args)
         {
             Console.WriteLine("Number of tries: ");
@@ -14,35 +17,37 @@ namespace Sorteio
 
         private static void Shuffle(ulong numberOfTries)
         {
-            int correctHits = 0;
-            int wrongHits = 0;
+            ulong correctHits = 0;
+            ulong wrongHits = 0;
 
-            var prizeIndex = new Random();
+            int prizeDoor;
+            int selectedDoor;
+            int discardedDoor;
 
             for (ulong i = 1; i <= numberOfTries; i++)
             {
-                int[] doors = { 1, 2, 3 };
+                prizeDoor = GetDoorNumber();
 
-                int prizeDoor = doors[prizeIndex.Next(0, doors.Length)] ;
+                selectedDoor = GetDoorNumber();
 
-                int selectedDoor = doors[prizeIndex.Next(0, doors.Length)];               
-
-                int discardedDoor = doors[prizeIndex.Next(0, doors.Length)];
+                discardedDoor = GetDoorNumber();
 
                 while (discardedDoor == prizeDoor || discardedDoor == selectedDoor)
                 {
-                    discardedDoor = doors[prizeIndex.Next(0, doors.Length)];
+                    discardedDoor = GetDoorNumber();
                 }
 
                 bool correctGuess = selectedDoor == prizeDoor;
 
                 if (correctGuess) correctHits++;
                 else wrongHits++;
-
+                
                 Console.WriteLine($"Prize Door: {prizeDoor}\nSelected Door: {selectedDoor}\nDiscarded Door: {discardedDoor}\nRight Guess? {correctGuess}\n\n");
             }
 
             Console.WriteLine($"Right Guesses: {correctHits} / {numberOfTries}\nWrong Guesses: {wrongHits} / {numberOfTries}");
         }
+
+        private static int GetDoorNumber() => _doors[_prizeIndex.Next(0, _doors.Length)];
     }
 }
